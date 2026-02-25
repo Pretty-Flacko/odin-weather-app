@@ -13,11 +13,49 @@ async function fetchWeatherData(location) {
 		}
 		const data = await response.json();
 
-		console.log(data);
 		return data;
 	} catch (error) {
 		console.error("Failed to fetch weather data:", error);
 	}
 }
 
-fetchWeatherData("London");
+function extractRequiredData(data) {
+	const {
+		resolvedAddress,
+		currentConditions: {
+			temp,
+			feelslike,
+			conditions,
+			humidity,
+			windspeed,
+			icon,
+			datetime,
+		},
+	} = data;
+
+	return {
+		address: resolvedAddress,
+		temp,
+		feelsLike: feelslike,
+		conditions,
+		humidity,
+		windSpeed: windspeed,
+		icon,
+		time: datetime,
+	};
+}
+
+async function getWeather(location) {
+	try {
+		const rawData = await fetchWeatherData(location);
+		if (!rawData) return;
+
+		const extractedData = extractRequiredData(rawData);
+		console.log(extractedData);
+		return extractedData;
+	} catch (error) {
+		console.error(error);
+	}
+}
+
+getWeather("London");
