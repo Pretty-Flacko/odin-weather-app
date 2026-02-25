@@ -57,4 +57,15 @@ async function getWeather(location, unitGroup = "metric") {
 	}
 }
 
-getWeather("London");
+const form = document.getElementById("weather-form");
+const locationInput = document.getElementById("location-input");
+
+form.addEventListener("submit", async (event) => {
+	event.preventDefault();
+
+	const location = locationInput.value.trim();
+	if (!location) return;
+
+	await getWeather(location);
+	locationInput.value = "";
+});
