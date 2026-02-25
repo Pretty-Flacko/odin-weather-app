@@ -1,10 +1,8 @@
 import "./style.css";
 
-async function fetchWeatherData(location) {
+async function fetchWeatherData(location, unitGroup = "metric") {
 	const apiKey = "PAASE59UM8JGVJWS2Y9JSEUVT";
-	const unitGroup = "metric";
-	const contentType = "json";
-	const url = `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${encodeURIComponent(location)}?unitGroup=${unitGroup}&contentType=${contentType}&key=${apiKey}`;
+	const url = `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${encodeURIComponent(location)}?unitGroup=${unitGroup}&contentType=json&key=${apiKey}`;
 
 	try {
 		const response = await fetch(url);
@@ -19,7 +17,7 @@ async function fetchWeatherData(location) {
 	}
 }
 
-function extractRequiredData(data) {
+function extractRequiredData(data, unitGroup) {
 	const {
 		resolvedAddress,
 		currentConditions: {
@@ -42,15 +40,16 @@ function extractRequiredData(data) {
 		windSpeed: windspeed,
 		icon,
 		time: datetime,
+		unitGroup,
 	};
 }
 
-async function getWeather(location) {
+async function getWeather(location, unitGroup = "metric") {
 	try {
-		const rawData = await fetchWeatherData(location);
+		const rawData = await fetchWeatherData(location, unitGroup);
 		if (!rawData) return;
 
-		const extractedData = extractRequiredData(rawData);
+		const extractedData = extractRequiredData(rawData, unitGroup);
 		console.log(extractedData);
 		return extractedData;
 	} catch (error) {
