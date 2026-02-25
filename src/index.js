@@ -59,13 +59,27 @@ async function getWeather(location, unitGroup = "metric") {
 
 const form = document.getElementById("weather-form");
 const locationInput = document.getElementById("location-input");
+const toggleButtons = document.querySelectorAll("#unit-toggle button");
+let currentUnit = "metric";
+let currentLocation = undefined;
+
+toggleButtons.forEach((button) => {
+	button.addEventListener("click", async () => {
+		const selectedUnit = button.dataset.unit;
+		if (selectedUnit === currentUnit) return;
+
+		currentUnit = selectedUnit;
+
+		toggleButtons.forEach((btn) => btn.classList.remove("active"));
+		button.classList.add("active");
+	});
+});
 
 form.addEventListener("submit", async (event) => {
 	event.preventDefault();
 
-	const location = locationInput.value.trim();
-	if (!location) return;
+	currentLocation = locationInput.value.trim();
+	if (!currentLocation) return;
 
-	await getWeather(location);
-	locationInput.value = "";
+	await getWeather(currentLocation, currentUnit);
 });
