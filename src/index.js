@@ -44,14 +44,32 @@ function extractRequiredData(data, unitGroup) {
 	};
 }
 
+function renderWeather(data) {
+	const output = document.getElementById("weather-output");
+
+	if (!data) {
+		output.textContent = "No weather data available.";
+		return;
+	}
+
+	output.innerHTML = `
+		<p>Location: ${data.address}</p>
+		<p>Temperature: ${data.temp} ${data.unitGroup === "metric" ? "°C" : "°F"}</p>
+		<p>Feels like: ${data.feelsLike} ${data.unitGroup === "metric" ? "°C" : "°F"}</p>
+		<p>Conditions: ${data.conditions}</p>
+		<p>Humidity: ${data.humidity}%</p>
+		<p>Wind speed: ${data.windSpeed}</p>
+		<p>Time: ${data.time}</p>
+	`;
+}
+
 async function getWeather(location, unitGroup = "metric") {
 	try {
 		const rawData = await fetchWeatherData(location, unitGroup);
 		if (!rawData) return;
 
 		const extractedData = extractRequiredData(rawData, unitGroup);
-		console.log(extractedData);
-		return extractedData;
+		renderWeather(extractedData);
 	} catch (error) {
 		console.error(error);
 	}
