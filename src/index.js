@@ -44,13 +44,25 @@ function extractRequiredData(data, unitGroup) {
 	};
 }
 
-function renderWeather(data) {
+async function loadWeatherIcon(iconName) {
+	try {
+		const module = await import(`./icons/${iconName}.svg`);
+		return module.default;
+	} catch (error) {
+		console.error("Icon not found:", iconName);
+		return null;
+	}
+}
+
+async function renderWeather(data) {
 	const output = document.getElementById("weather-output");
 
 	if (!data) {
 		output.textContent = "No weather data available.";
 		return;
 	}
+
+	const iconSrc = await loadWeatherIcon(data.icon);
 
 	output.innerHTML = `
 		<p>Location: ${data.address}</p>
@@ -60,6 +72,7 @@ function renderWeather(data) {
 		<p>Humidity: ${data.humidity}%</p>
 		<p>Wind speed: ${data.windSpeed}</p>
 		<p>Time: ${data.time}</p>
+		${iconSrc ? `<img src="${iconSrc}" alt"${data.conditions}">` : ""}
 	`;
 }
 
@@ -69,7 +82,7 @@ async function getWeather(location, unitGroup = "metric") {
 		if (!rawData) return;
 
 		const extractedData = extractRequiredData(rawData, unitGroup);
-		renderWeather(extractedData);
+		await renderWeather(extractedData);
 	} catch (error) {
 		console.error(error);
 	}
