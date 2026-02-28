@@ -65,6 +65,7 @@ async function renderWeather(data) {
 	const iconSrc = await loadWeatherIcon(data.icon);
 
 	output.innerHTML = `
+		${iconSrc ? `<img src="${iconSrc}" alt"${data.conditions}">` : ""}
 		<p>Location: ${data.address}</p>
 		<p>Temperature: ${data.temp} ${data.unitGroup === "metric" ? "°C" : "°F"}</p>
 		<p>Feels like: ${data.feelsLike} ${data.unitGroup === "metric" ? "°C" : "°F"}</p>
@@ -72,7 +73,6 @@ async function renderWeather(data) {
 		<p>Humidity: ${data.humidity}%</p>
 		<p>Wind speed: ${data.windSpeed}</p>
 		<p>Time: ${data.time}</p>
-		${iconSrc ? `<img src="${iconSrc}" alt"${data.conditions}">` : ""}
 	`;
 }
 
