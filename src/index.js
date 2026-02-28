@@ -76,8 +76,21 @@ async function renderWeather(data) {
 	`;
 }
 
+const loadingElement = document.getElementById("loading");
+
+function showLoading() {
+	loadingElement.classList.remove("hidden");
+	document.getElementById("weather-output").innerHTML = "";
+}
+
+function hideLoading() {
+	loadingElement.classList.add("hidden");
+}
+
 async function getWeather(location, unitGroup = "metric") {
 	try {
+		showLoading();
+
 		const rawData = await fetchWeatherData(location, unitGroup);
 		if (!rawData) return;
 
@@ -85,6 +98,8 @@ async function getWeather(location, unitGroup = "metric") {
 		await renderWeather(extractedData);
 	} catch (error) {
 		console.error(error);
+	} finally {
+		hideLoading();
 	}
 }
 

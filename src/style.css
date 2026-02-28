@@ -20,10 +20,27 @@ body {
 	background-color: #f4f6fb;
 	min-height: 100vh;
 	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.app {
+	display: flex;
 	flex-direction: column;
 	gap: 20px;
 	align-items: center;
-	justify-content: center;
+}
+
+#loading {
+	background-color: #fff;
+	padding: 16px 20px;
+	border-radius: 12px;
+	box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+	font-size: 14px;
+}
+
+.hidden {
+	display: none;
 }
 
 form {
@@ -95,9 +112,12 @@ button[type="submit"]:hover {
 	flex-direction: column;
 	gap: 6px;
 }
+#weather-output:empty {
+	display: none;
+}
 
 #weather-output img {
 	width: 80px;
 	align-self: center;
-	margin-top: 10px;
+	margin-bottom: 14px;
 }

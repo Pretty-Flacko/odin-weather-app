@@ -6,19 +6,22 @@
 		<title>Weather App</title>
 	</head>
 	<body>
-		<div id="weather-output"></div>
-		<form id="weather-form">
-			<input
-				type="text"
-				id="location-input"
-				placeholder="Enter a city"
-				required
-			/>
-			<div id="unit-toggle">
-				<button type="button" data-unit="metric" class="active">°C</button>
-				<button type="button" data-unit="us">°F</button>
-			</div>
-			<button type="submit">Get Weather</button>
-		</form>
+		<div class="app">
+			<div id="loading" class="hidden">Loading weather...</div>
+			<section id="weather-output"></section>
+			<form id="weather-form">
+				<input
+					type="text"
+					id="location-input"
+					placeholder="Enter a city"
+					required
+				/>
+				<div id="unit-toggle">
+					<button type="button" data-unit="metric" class="active">°C</button>
+					<button type="button" data-unit="us">°F</button>
+				</div>
+				<button type="submit">Get Weather</button>
+			</form>
+		</div>
 	</body>
 </html>
